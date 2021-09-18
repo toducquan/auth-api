@@ -44,7 +44,7 @@ export default class UsersController {
             ])
         })
         const data = await request.validate({schema: validation})
-        const user = await User.create({email: data.email, password: data.password})
+        await User.create({email: data.email, password: data.password})
         return response.status(201).json({"mess": "created successfully"})
     }
 
