@@ -18,14 +18,5 @@
 |
 */
 
-import Route from '@ioc:Adonis/Core/Route'
-
-Route.group(() =>{
-  Route.resource('todo', 'TodosController').apiOnly()
-
-}).prefix('/api').middleware('auth')
-
-Route.group(() =>{
-  Route.post('/register', 'UsersController.register'), 
-  Route.post('/login', 'UsersController.login')
-})
+import './routes/todoRoutes'
+import './routes/userRoutes'

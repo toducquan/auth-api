@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import Todo from "App/Models/Todo";
+import * as TodoDb from "../../DataAccess/Todo/index";
 
 export default class TodosController {
     /**
@@ -15,7 +15,8 @@ export default class TodosController {
   *         description: Ok
   */
     public async index() {
-        return Todo.all()
+        const todolist = TodoDb.getAllTodoList()
+        return todolist
     }
     /**
   * @swagger
@@ -39,7 +40,7 @@ export default class TodosController {
   *         description: Created
   */
     public async store({request,response}: HttpContextContract){
-        Todo.create({title: request.input('title'), is_completed: false})
+        const item = TodoDb.addNewTodo(request.input('title'))
         return response.status(201).json({"mess": "created"})
     }
     /**
@@ -60,7 +61,7 @@ export default class TodosController {
  *         description: The item description by id
  */
     public async show({params}: HttpContextContract){
-        const item = Todo.findOrFail(params.id)
+        const item = TodoDb.getTodoByID(params.id)
         return item
     }
 /**
@@ -90,9 +91,7 @@ export default class TodosController {
  *        description: The item was updated
  */
     public async update({params, request, response}: HttpContextContract) {
-        const item = await Todo.findOrFail(params.id)
-        item.is_completed = request.input('is_completed')
-        item.save()
+        const item = await TodoDb.changeTodoByID(params.id, request.input('is_completed'))
         return response.status(202).send(item)
     }
     /**
@@ -114,8 +113,7 @@ export default class TodosController {
  *         description: The book was deleted
  */
     public async destroy({params, response}: HttpContextContract) {
-        const item = await Todo.findOrFail(params.id)
-        item.delete()
+        const item = await TodoDb.deleteTodoByID(params.id)
         return response.json({"mess": "deleted successfully"})
     }
 }

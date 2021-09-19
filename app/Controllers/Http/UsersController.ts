@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import User from 'App/Models/User'
+import * as UserDb from "../../DataAccess/User/index"
+import { validation } from 'App/Validation/userValidation'
 
 export default class UsersController {
             /**
@@ -33,18 +33,9 @@ export default class UsersController {
   *       201:
   *         description: Created
   */
-    public async register({request, response}:HttpContextContract){
-        const validation = schema.create({
-            email: schema.string({}, [
-                rules.email(), 
-                rules.unique({table: 'users', column: 'email'})
-            ]),
-            password: schema.string({}, [
-                rules.confirmed()
-            ])
-        })
+    public async index({request, response}:HttpContextContract){
         const data = await request.validate({schema: validation})
-        await User.create({email: data.email, password: data.password})
+        const user = await UserDb.register(data.email, data.password)
         return response.status(201).json({"mess": "created successfully"})
     }
 
@@ -73,7 +64,7 @@ export default class UsersController {
   *       200:
   *         description: Ok
   */
-    public async login({request, auth}: HttpContextContract){
+    public async store({request, auth}: HttpContextContract){
         const email = request.input('email')
         const password = request.input('password')              
         const token = await auth.use('api').attempt(email, password, {
