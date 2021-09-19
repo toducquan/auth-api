@@ -40,7 +40,7 @@ export default class TodosController {
   *         description: Created
   */
     public async store({request,response}: HttpContextContract){
-        const item = TodoDb.addNewTodo(request.input('title'))
+        TodoDb.addNewTodo(request.input('title'))
         return response.status(201).json({"mess": "created"})
     }
     /**
@@ -113,7 +113,7 @@ export default class TodosController {
  *         description: The book was deleted
  */
     public async destroy({params, response}: HttpContextContract) {
-        const item = await TodoDb.deleteTodoByID(params.id)
+        await TodoDb.deleteTodoByID(params.id)
         return response.json({"mess": "deleted successfully"})
     }
 }
