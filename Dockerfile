@@ -1,20 +1,12 @@
 FROM node:lts-alpine
 
-RUN mkdir -p /home/node/app/node_modules
-
-WORKDIR /home/node/app
+WORKDIR /app
 
 COPY package.json yarn.* ./
 
-RUN apk add --no-cache git
+COPY . ./
 
-COPY . /home/node/app/
-
-RUN chown -R node:node /home/node
-
-RUN yarn
-
-USER node
+RUN npm install
 
 EXPOSE 3333
 
