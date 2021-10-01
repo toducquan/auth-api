@@ -9,7 +9,7 @@ export default class UsersController {
 
     public async index({request, response}:HttpContextContract){
         const data = await request.validate({schema: validation})
-        const user = await this.userService.register(data.email, data.password)
+        await this.userService.register(data.email, data.password)
         return response.status(201).json({"mess": "created successfully"})
     }
 
