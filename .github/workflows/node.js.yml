@@ -27,5 +27,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run build
-    - run: pm2 restart server
+    - run: node ace build --production
+    - run: cd build
+    - run: npm ci --production
+    - run: ENV_PATH=/etc/myapp/.env node server.js
