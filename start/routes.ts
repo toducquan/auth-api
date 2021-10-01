@@ -23,5 +23,5 @@ import './routes/userRoutes'
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', () => {
-    return 'Hello world25092000'
+    return 'Hello world25092000123'
   })
