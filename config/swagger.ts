@@ -6,8 +6,7 @@ export default {
 	uiUrl: 'docs', // url path to swaggerUI
 	specEnabled: true, //disable or enable swagger.json route
 	specUrl: '/swagger.json',
-
-	middleware: [], // middlewares array, for protect your swagger docs and spec endpoints
+	middleware: [], // middlewares array, for protect your swagger docs and spec endpoints,
 
 	options: {
 		definition: {
@@ -16,7 +15,15 @@ export default {
 				title: 'Application with swagger docs',
 				version: '1.0.0',
 				description: 'My application with swagger docs'
-			}
+			},
+			components: {
+				securitySchemes: {
+				  bearerAuth: {
+					type: 'http',
+					scheme: 'bearer',
+				  }
+				},
+			},
 		},
 
 		apis: [
@@ -24,7 +31,6 @@ export default {
 			'docs/swagger/**/*.yml',
 			'start/routes.ts'
 		],
-		basePath: '/'
 	},
 	swaggerAuth: {
 		authMiddleware: 'swagger-auth',

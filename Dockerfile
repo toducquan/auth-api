@@ -8,6 +8,6 @@ COPY . ./
 
 RUN npm install
 
-EXPOSE 3333
+# EXPOSE 3333
 
 ENTRYPOINT ["node","ace","serve","--watch"]

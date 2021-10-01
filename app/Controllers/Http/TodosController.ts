@@ -11,6 +11,8 @@ export default class TodosController {
     }
  
     public async store({request,response}: HttpContextContract){
+
+        console.log(request.all())
         const item = this.todoService.addNewTodo(request.input('title'))
         return response.status(201).json({"mess": "created"})
     }

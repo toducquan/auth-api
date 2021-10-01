@@ -1,12 +1,26 @@
 version: "3"
 services:
+  mysqldb:
+    image: mysql
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=25092000
+      - MYSQL_DATABASE=newdb
+    volumes:
+      - ./db:/var/lib/mysql
   my-app:
     build: .
-    port:
-      - "3333:3333"
+    ports:
+      - 3333:3333
     volumes: 
       - ./:/app
       - /app/node_modules
     env_file: ./.env
     environment:
-      - PORT=3333
+      - DB_HOST=mysqldb
+      - DB_USER=$MYSQL_USER
+      - DB_PASSWORD=$MYSQL_PASSWORD
+      - DB_NAME=$MYSQL_DB_NAME
+      - DB_PORT=$MYSQL_PORT
