@@ -29,5 +29,4 @@ jobs:
     - run: npm ci
     - run: node ace build --production
     - run: cd build
-    - run: npm ci --production
-    - run: ENV_PATH=/etc/myapp/.env node /build/server.js
+    - run: ENV_PATH=/etc/myapp/.env node server.js
